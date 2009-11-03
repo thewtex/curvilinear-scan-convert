@@ -7,6 +7,7 @@ endif( COMMAND cmake_policy )
 project( CURVILINEAR_SCAN_CONVERT )
 
 find_package( ITK REQUIRED )
+include( ${ITK_USE_FILE} )
 
 if(CMAKE_COMPILER_IS_GNUCXX)
   set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall")
@@ -27,9 +28,9 @@ add_subdirectory(source)
 
 include(CTest)
 if(BUILD_TESTING)
-  if(NOT EXISTS ${RDI_READER_SOURCE_DIR}/tests/data/.git)
-    message(SEND_ERROR "In order to run tests, the tests/data must be
-    downloaded.  If you do not want to run tests, turn BUILD_TESTING OFF.")
+  if(NOT EXISTS ${CURVILINEAR_SCAN_CONVERT_SOURCE_DIR}/tests/data/.git)
+    message(SEND_ERROR "In order to run tests, the tests/data must be downloaded.  
+    If you do not want to run tests, turn BUILD_TESTING OFF.")
   endif()
   enable_testing()
   add_subdirectory(tests)
