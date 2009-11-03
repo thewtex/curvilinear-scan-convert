@@ -20,6 +20,9 @@ if( VISUALSONICS_INCLUDE-NOTFOUND )
   specified." )
 endif()
 include_directories( ${VISUALSONICS_INCLUDE} )
+find_library( VISUALSONICS_LIBRARY
+  ITKVisualSonicsImageIO 
+  )
 
 include_directories( ${CURVILINEAR_SCAN_CONVERT_SOURCE_DIR}/source )
 
@@ -29,12 +32,13 @@ set_source_files_properties(
   )
 add_executable( curvilinear-b-mode
   curvilinear-b-mode.cxx
+  curvilinear-instan.cxx
   b-mode-instan.cxx
   reader-instan.cxx
   writer-instan.cxx
   )
 target_link_libraries( curvilinear-b-mode
-  ITKVisualSonicsImageIO
+  ${VISUALSONICS_LIBRARY}
   ITKStatistics
   )
 add_test( curvilinear-b-mode

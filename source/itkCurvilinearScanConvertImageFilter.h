@@ -10,7 +10,7 @@
 
 #include "itkImageToImageFilter.h"
 
-namesplace itk
+namespace itk
 {
 
 /** @brief Scan convert an ultrasound image from a curvilinear array.
@@ -74,8 +74,6 @@ public:
   /** Set the direction in which the filter is to be applied. */
   itkSetMacro(Direction, unsigned int);
 
-  virtual void GenerateOutputInformation(void);
-
 protected:
   CurvilinearScanConvertImageFilter();
   ~CurvilinearScanConvertImageFilter() {}
@@ -102,5 +100,9 @@ private:
 
 };
 } // end namesplace itk
+
+#ifndef ITK_MANUAL_INSTANTIATION
+#include "itkCurvilinearScanConvertImageFilter.txx"
+#endif
 
 #endif // __itkCurvilinearScanConvertImageFilter_h
