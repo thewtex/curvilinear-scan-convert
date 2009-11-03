@@ -45,6 +45,11 @@ int main( int argc, char* argv[] )
 
   bmode->SetInput( reader->GetOutput() );
   scanConvert->SetInput( bmode->GetOutput() );
+  // for now
+    reader->UpdateOutputInformation();
+    scanConvert->SetMetaDataDictionary( reader->GetMetaDataDictionary() );
+    scanConvert->UpdateOutputInformation();
+    return EXIT_SUCCESS;
   writer->SetInput( scanConvert->GetOutput() );
   try
     {

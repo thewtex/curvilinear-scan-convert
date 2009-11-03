@@ -3,6 +3,9 @@
 
 #include "itkCurvilinearScanConvertImageFilter.h"
 
+#include "itkMetaDataDictionary.h"
+#include "itkMetaDataObject.h"
+
 namespace itk
 {
 
@@ -28,6 +31,15 @@ void
 CurvilinearScanConvertImageFilter< TInputImage, TOutputImage >
 ::GenerateOutputInformation()
 {
+  const MetaDataDictionary& dict = this->GetMetaDataDictionary();
+  if( !dict.HasKey( "Radius" ) )
+    {
+    itkExceptionMacro( "Could not find 'Radius' MetaDataDictionary entry." );
+    }
+  typedef itk::MetaDataObject< double > MetaDataDoubleType;
+  const MetaDataObjectBase* radiusPtr = dict["Radius"];
+  const double radius = (*( dynamic_cast< const MetaDataDoubleType* >( radiusPtr ))).GetMetaDataObjectValue();
+  std::cout << "The radius is : " << radius << std::endl;
   //! @todo define me
 }
 
