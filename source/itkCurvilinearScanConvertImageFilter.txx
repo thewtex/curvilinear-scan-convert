@@ -12,7 +12,7 @@ namespace itk
 template < class TInputImage, class TOutputImage >
 CurvilinearScanConvertImageFilter< TInputImage, TOutputImage >
 ::CurvilinearScanConvertImageFilter():
-  m_Direction(0)
+  m_Direction(1)
 {
 }
 
@@ -31,15 +31,25 @@ void
 CurvilinearScanConvertImageFilter< TInputImage, TOutputImage >
 ::GenerateOutputInformation()
 {
+  this->Superclass::GenerateOutputInformation();
+
   const MetaDataDictionary& dict = this->GetMetaDataDictionary();
   if( !dict.HasKey( "Radius" ) )
     {
     itkExceptionMacro( "Could not find 'Radius' MetaDataDictionary entry." );
     }
-  typedef itk::MetaDataObject< double > MetaDataDoubleType;
-  const MetaDataObjectBase* radiusPtr = dict["Radius"];
-  const double radius = (*( dynamic_cast< const MetaDataDoubleType* >( radiusPtr ))).GetMetaDataObjectValue();
-  std::cout << "The radius is : " << radius << std::endl;
+  const double radius = (*( dynamic_cast< const itk::MetaDataObject< double >* >( dict["Radius"] ))).GetMetaDataObjectValue();
+
+  if( !dict.HasKey( "Theta" ) )
+    {
+    itkExceptionMacro( "Could not find 'Theta' MetaDataDictionary entry." );
+    }
+  const std::vector< double >& theta = (*( dynamic_cast< const itk::MetaDataObject< std::vector< double > >* >( dict["Theta"] ))).GetMetaDataObjectValue();
+  
+  unsigned int numLines = this->GetInput()->GetLargestPossibleRegion().GetSize()[this->m_Direction];
+  for( unsigned int i = 0; i < numLines; i++ )
+    std::cout << theta[i] << std::endl;
+  
   //! @todo define me
 }
 
