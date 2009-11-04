@@ -11,6 +11,9 @@ using namespace std;
 #include "itkImage.h"
 #include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"
+#include "itkMetaDataDictionary.h"
+#include "itkMetaDataObject.h"
+
 
 #include "itkBModeImageFilter.h"
 #include "itkVisualSonicsImageIOFactory.h"
@@ -27,12 +30,13 @@ int main( int argc, char* argv[] )
 
   typedef signed short InputPixelType;
   typedef unsigned short OutputPixelType;
-  typedef itk::Image< InputPixelType, 3 > InputImageType;
-  typedef itk::Image< OutputPixelType, 3 > OutputImageType;
+  const unsigned int Dimension = 3;
+  typedef itk::Image< InputPixelType, Dimension > InputImageType;
+  typedef itk::Image< OutputPixelType, Dimension > OutputImageType;
 
   typedef itk::ImageFileReader< InputImageType > ReaderType;
   typedef itk::BModeImageFilter< InputImageType, OutputImageType > BModeType;
-  typedef itk::RThetaTransform< OutputImageType, OutputImageType > ScanConvertType;
+  typedef itk::RThetaTransform< double, Dimension > ScanConvertType;
   typedef itk::ImageFileWriter< OutputImageType > WriterType;
 
   ReaderType::Pointer reader = ReaderType::New();
@@ -44,13 +48,13 @@ int main( int argc, char* argv[] )
   writer->SetFileName( argv[2] );
 
   bmode->SetInput( reader->GetOutput() );
-  scanConvert->SetInput( bmode->GetOutput() );
+  //scanConvert->SetInput( bmode->GetOutput() );
   // for now
     reader->UpdateOutputInformation();
-    scanConvert->SetMetaDataDictionary( reader->GetMetaDataDictionary() );
-    scanConvert->UpdateOutputInformation();
+    //scanConvert->SetMetaDataDictionary( reader->GetMetaDataDictionary() );
+    //scanConvert->UpdateOutputInformation();
     return EXIT_SUCCESS;
-  writer->SetInput( scanConvert->GetOutput() );
+  //writer->SetInput( scanConvert->GetOutput() );
   try
     {
     writer->Update();

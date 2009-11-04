@@ -1,3 +1,3 @@
-#include "itkCurvilinearScanConvertImageFilter.txx"
+#include "itkRThetaTransform.txx"
 
-template class itk::CurvilinearScanConvertImageFilter< itk::Image < unsigned short, 3 >, itk::Image< unsigned short, 3 > >;
+template class itk::RThetaTransform< double, 3 >;

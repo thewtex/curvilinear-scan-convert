@@ -69,6 +69,9 @@ public:
   /** Method for creation through the object factory. */
   itkNewMacro( Self );
 
+  /** Dimension of the domain space. */
+  itkStaticConstMacro(SpaceDimension, unsigned int, NDimensions);
+
   /** Type of the input parameters. */
   typedef  TScalarType     ScalarType;
 
@@ -77,9 +80,9 @@ public:
 
   /** Standard coordinate point type for this class */
   typedef Point<TScalarType,
-                itkGetStaticConstMacro(InputSpaceDimension)> InputPointType;
+                itkGetStaticConstMacro(SpaceDimension)> InputPointType;
   typedef Point<TScalarType,
-                itkGetStaticConstMacro(OutputSpaceDimension)> OutputPointType;
+                itkGetStaticConstMacro(SpaceDimension)> OutputPointType;
 
   /** Standard vector type for this class. */
   typedef Vector<TScalarType,
@@ -134,21 +137,31 @@ public:
    */
   virtual bool IsLinear() const { return false; }
 
+  /** The direction in the input image that corresponds to the radial component.
+   * */
+  itkSetMacro( RDirection, unsigned int );
+  itkGetConstMacro( RDirection, unsigned int );
+
+  /** The direction in the input image that corresponds to the angular (theta)
+   * component. */
+  itkSetMacro( ThetaDirection, unsigned int );
+  itkGetConstMacro( ThetaDirection, unsigned int );
+
  /**  Rmin
  *    The distance from the center of rotation to the first sample in the
  *    RDirection. type: double */
   virtual void SetRmin( const double& Rmin )
     { 
-    m_Parameters[0] = Rmin;
+    this->m_Parameters[0] = Rmin;
     this->Modified();
     }
 
  /**  Rmax
  *    Distance in physical units to the last point in the RDirection.  Rmin +
  *    size[RDirection] * spacing[RDirection] */
-  virtual void SetRMax( const double& Rmax )
+  virtual void SetRmax( const double& Rmax )
     {
-    m_Parameters[1] = Rmax;
+    this->m_Parameters[1] = Rmax;
     this->Modified();
     }
 
@@ -162,16 +175,20 @@ public:
    *	each element in the ThetaDirection.  ThetaArray.size() should be the
    *	same as the size of the image in the ThetaDirection.  The MaxAbsTheta,
    *	Thetamin, and SpacingThetaOverDeltaTheta Parameters are defined after
-   *	calling this method.  SetSpacingTheta() must be called before this. */
+   *	calling this method.  SetSpacingTheta() and SetRmin() SetRmax() must be called before this. */
   virtual void SetThetaArray( const itk::Array< double >& theta );
 
 protected:
   RThetaTransform();
   ~RThetaTransform() {}
 
-  void PrintSelf( std::ostream& os, Indent indent ) const;
-
+  unsigned int m_RDirection;
+  unsigned int m_ThetaDirection;
   double m_SpacingTheta;
+
+  // we have these ase member variable so they only have to be calculated once
+  ScalarType m_RmaxsinMaxAbsTheta;
+  ScalarType m_RmincosMaxAbsTheta;
 
 private:
   RThetaTransform( const Self& ); // purposely not implemented
