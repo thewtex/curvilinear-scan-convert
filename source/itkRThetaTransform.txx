@@ -1,7 +1,7 @@
-#ifndef __itkCurvilinearScanConvertImageFilter_txx
-#define __itkCurvilinearScanConvertImageFilter_txx
+#ifndef __itkRThetaTransform_txx
+#define __itkRThetaTransform_txx
 
-#include "itkCurvilinearScanConvertImageFilter.h"
+#include "itkRThetaTransform.h"
 
 #include "itkMetaDataDictionary.h"
 #include "itkMetaDataObject.h"
@@ -10,8 +10,8 @@ namespace itk
 {
 
 template < class TInputImage, class TOutputImage >
-CurvilinearScanConvertImageFilter< TInputImage, TOutputImage >
-::CurvilinearScanConvertImageFilter():
+RThetaTransform< TInputImage, TOutputImage >
+::RThetaTransform():
   m_Direction(1)
 {
 }
@@ -19,7 +19,7 @@ CurvilinearScanConvertImageFilter< TInputImage, TOutputImage >
 
 template < class TInputImage, class TOutputImage >
 void
-CurvilinearScanConvertImageFilter< TInputImage, TOutputImage >
+RThetaTransform< TInputImage, TOutputImage >
 ::PrintSelf( std::ostream& os, Indent indent ) const
 {
   //! @todo define me
@@ -28,7 +28,7 @@ CurvilinearScanConvertImageFilter< TInputImage, TOutputImage >
 
 template < class TInputImage, class TOutputImage >
 void
-CurvilinearScanConvertImageFilter< TInputImage, TOutputImage >
+RThetaTransform< TInputImage, TOutputImage >
 ::GenerateOutputInformation()
 {
   this->Superclass::GenerateOutputInformation();
@@ -56,7 +56,7 @@ CurvilinearScanConvertImageFilter< TInputImage, TOutputImage >
 
 template < class TInputImage, class TOutputImage >
 void
-CurvilinearScanConvertImageFilter< TInputImage, TOutputImage >
+RThetaTransform< TInputImage, TOutputImage >
 ::GenerateInputRequestedRegion()
 {
   //! @todo define me
@@ -64,7 +64,7 @@ CurvilinearScanConvertImageFilter< TInputImage, TOutputImage >
 
 template < class TInputImage, class TOutputImage >
 void
-CurvilinearScanConvertImageFilter< TInputImage, TOutputImage >
+RThetaTransform< TInputImage, TOutputImage >
 ::GenerateData()
 {
   //! @todo define me
@@ -72,4 +72,4 @@ CurvilinearScanConvertImageFilter< TInputImage, TOutputImage >
 
 }
 
-#endif // __itkCurvilinearScanConvertImageFilter_txx
+#endif // __itkRThetaTransform_txx

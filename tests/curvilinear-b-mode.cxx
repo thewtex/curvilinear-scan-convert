@@ -15,7 +15,7 @@ using namespace std;
 #include "itkBModeImageFilter.h"
 #include "itkVisualSonicsImageIOFactory.h"
 
-#include "itkCurvilinearScanConvertImageFilter.h"
+#include "itkRThetaTransform.h"
 
 int main( int argc, char* argv[] )
 {
@@ -32,7 +32,7 @@ int main( int argc, char* argv[] )
 
   typedef itk::ImageFileReader< InputImageType > ReaderType;
   typedef itk::BModeImageFilter< InputImageType, OutputImageType > BModeType;
-  typedef itk::CurvilinearScanConvertImageFilter< OutputImageType, OutputImageType > ScanConvertType;
+  typedef itk::RThetaTransform< OutputImageType, OutputImageType > ScanConvertType;
   typedef itk::ImageFileWriter< OutputImageType > WriterType;
 
   ReaderType::Pointer reader = ReaderType::New();

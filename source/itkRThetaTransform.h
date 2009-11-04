@@ -1,12 +1,12 @@
 /** 
- * @file itkCurvilinearScanConvertImageFilter.h
+ * @file itkRThetaTransform.h
  * @brief Scan convert an ultrasound image from a curvilinear array.
  * @author Matthew McCormick (thewtex) <matt@mmmccormick.com>
  * @date 2009-11-03
  */
 
-#ifndef __itkCurvilinearScanConvertImageFilter_h
-#define __itkCurvilinearScanConvertImageFilter_h
+#ifndef __itkRThetaTransform_h
+#define __itkRThetaTransform_h
 
 #include "itkImageToImageFilter.h"
 
@@ -27,12 +27,12 @@ namespace itk
  */
 
 template < class TInputImage, class TOutputImage >
-class ITK_EXPORT CurvilinearScanConvertImageFilter :
+class ITK_EXPORT RThetaTransform :
   public ImageToImageFilter< TInputImage, TOutputImage >
 {
 public:
   /** Standard "Self" typedef.   */
-  typedef CurvilinearScanConvertImageFilter Self;
+  typedef RThetaTransform Self;
 
   /** The type of input image.   */
   typedef TInputImage InputImageType;
@@ -64,7 +64,7 @@ public:
   typedef SmartPointer< const Self > ConstPointer;
 
   /** Run-time type information (and related methods) */
-  itkTypeMacro( CurvilinearScanConvertImageFilter, ImageToImageFilter );
+  itkTypeMacro( RThetaTransform, ImageToImageFilter );
   
   /** Method for creation through the object factory. */
   itkNewMacro( Self );
@@ -76,8 +76,8 @@ public:
   itkSetMacro(Direction, unsigned int);
 
 protected:
-  CurvilinearScanConvertImageFilter();
-  ~CurvilinearScanConvertImageFilter() {}
+  RThetaTransform();
+  ~RThetaTransform() {}
 
   void PrintSelf( std::ostream& os, Indent indent ) const;
 
@@ -95,7 +95,7 @@ protected:
   unsigned int m_Direction;
 
 private:
-  CurvilinearScanConvertImageFilter( const Self& ); // purposely not implemented
+  RThetaTransform( const Self& ); // purposely not implemented
   void operator=( const Self& ); // purposely not implemented
 
 
@@ -103,7 +103,7 @@ private:
 } // end namesplace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkCurvilinearScanConvertImageFilter.txx"
+#include "itkRThetaTransform.txx"
 #endif
 
-#endif // __itkCurvilinearScanConvertImageFilter_h
+#endif // __itkRThetaTransform_h
