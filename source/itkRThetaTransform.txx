@@ -14,10 +14,12 @@ RThetaTransform< TScalarType, NDimensions >
   Superclass( SpaceDimension, 5 ),
   m_RDirection( 0 ),
   m_ThetaDirection( 1 ),
-  m_SpacingTheta( 0.0 ),
-  m_RmaxsinMaxAbsTheta( -1.0 ),
-  m_RmincosMaxAbsTheta( -1.0 )
+  m_SpacingTheta( 0.0 )
 {
+  // Rmin invalid value to make sure it gets set
+  this->m_Parameters[0] = -1.0;
+  // Rmax invalid value to make suer it gets set
+  this->m_Parameters[1] = -1.0;
 }
 
 
@@ -32,21 +34,21 @@ RThetaTransform< TScalarType, NDimensions >
   // Thetamin
   this->m_Parameters[3] = thetaArray.min_value();
 
-  if( m_RmincosMaxAbsTheta < 0.0 )
+  if( this->m_Parameters[0] < 0.0 )
     {
     itkExceptionMacro( "SetRmin() must be called before SetThetaArray()." );
     }
-  m_RmincosMaxAbsTheta = this->m_Parameters[1] * vcl_sin( this->m_Parameters[2] ); 
+  m_RmincosMaxAbsTheta = this->m_Parameters[0] * vcl_cos( this->m_Parameters[2] ); 
 
-  if( m_RmaxsinMaxAbsTheta < 0.0 )
+  if( this->m_Parameters[1] < 0.0 )
     {
     itkExceptionMacro( "SetRmax() must be called before SetThetaArray()." );
     }
-  m_RmaxsinMaxAbsTheta = this->m_Parameters[0] * vcl_cos( this->m_Parameters[2] );
+  m_RmaxsinThetamin = this->m_Parameters[1] * vcl_sin( this->m_Parameters[3] );
 
   if( m_SpacingTheta == 0.0 )
     {
-    itkExceptionMacro( "SetSpacingTheta() must be called before SetThetaArray." );
+    itkExceptionMacro( "SetSpacingTheta() must be called before SetThetaArray()." );
     }
 
   // SpacingThetaOverDeltaTheta
@@ -62,13 +64,13 @@ RThetaTransform< TScalarType, NDimensions >
   OutputPointType outpoint = inpoint;
 
   ScalarType theta = vcl_atan(
-    ( inpoint[m_RDirection] - m_RmaxsinMaxAbsTheta ) / 
-    ( inpoint[m_RDirection] + m_RmincosMaxAbsTheta )
+    inpoint[m_ThetaDirection] / 
+    inpoint[m_RDirection]
   );
 
   ScalarType r = vcl_sqrt( 
-    vnl_math_sqr( m_RmincosMaxAbsTheta + inpoint[m_RDirection] ) +
-    vnl_math_sqr( inpoint[m_RDirection] - m_RmaxsinMaxAbsTheta )
+    vnl_math_sqr( inpoint[m_RDirection] ) +
+    vnl_math_sqr( inpoint[m_ThetaDirection] )
   );
 
   outpoint[m_RDirection] = r - this->m_Parameters[0];

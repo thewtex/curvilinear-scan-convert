@@ -34,7 +34,10 @@ add_executable( curvilinear-b-mode
   curvilinear-b-mode.cxx
   curvilinear-instan.cxx
   b-mode-instan.cxx
+  interp-instan.cxx
+  metadataobject-instan.cxx
   reader-instan.cxx
+  resample-instan.cxx
   writer-instan.cxx
   )
 target_link_libraries( curvilinear-b-mode

@@ -16,6 +16,8 @@ namespace itk
 /** @brief Transform for an image that was actually acquired in (R, Theta)
  * space.  E.g., scan convert an ultrasound image from a curvilinear array.
  * 
+ *  Valid values of theta can range from -pi/2 to pi/2.
+ *
  *  Properties:
  *  RDirection
  *    The direction in the input image assumed to correspond to the radial
@@ -178,6 +180,14 @@ public:
    *	calling this method.  SetSpacingTheta() and SetRmin() SetRmax() must be called before this. */
   virtual void SetThetaArray( const itk::Array< double >& theta );
 
+  /** = Rmax * sin( max | theta | ).  Corresponds to the Location of the origin
+   * in the ThetaDirection.  */ 
+  itkGetConstMacro( RmaxsinThetamin, ScalarType );
+
+  /** = Rmin * cos( max | theta | ).  Corresponds to the location of the origin
+   * in the RDirection. */
+  itkGetConstMacro( RmincosMaxAbsTheta, ScalarType );
+
 protected:
   RThetaTransform();
   ~RThetaTransform() {}
@@ -187,7 +197,7 @@ protected:
   double m_SpacingTheta;
 
   // we have these ase member variable so they only have to be calculated once
-  ScalarType m_RmaxsinMaxAbsTheta;
+  ScalarType m_RmaxsinThetamin;
   ScalarType m_RmincosMaxAbsTheta;
 
 private:
