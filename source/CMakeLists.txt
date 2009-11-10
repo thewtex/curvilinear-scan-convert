@@ -1,3 +1,3 @@
 install( FILES itkRThetaTransform.h itkRThetaTransform.txx
-  DESTINATION include 
+  DESTINATION ${ITK_INSTALL_PREFIX}/include/InsightToolkit/Common
   )
