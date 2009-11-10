@@ -12,13 +12,7 @@ if( BMODE_INCLUDE-NOTFOUND )
 endif()
 include_directories( ${BMODE_INCLUDE} )
 
-find_path( VISUALSONICS_INCLUDE
-  NAMES itkVisualSonicsImageIO.h
-  )
-if( VISUALSONICS_INCLUDE-NOTFOUND )
-  message( SEND_ERROR "The itkVisualSonicsImageIO.h header location must be
-  specified." )
-endif()
+find_package( RDIReader REQUIRED )
 include_directories( ${VISUALSONICS_INCLUDE} )
 find_library( VISUALSONICS_LIBRARY
   ITKVisualSonicsImageIO 
