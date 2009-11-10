@@ -40,10 +40,8 @@ int main( int argc, char* argv[] )
   typedef itk::ImageFileReader< InputImageType > ReaderType;
   typedef itk::BModeImageFilter< InputImageType, OutputImageType > BModeType;
   typedef itk::ResampleImageFilter< OutputImageType, OutputImageType > ResampleType;
-  //typedef itk::ResampleImageFilter< InputImageType, InputImageType > ResampleType;
   typedef itk::RThetaTransform< double, Dimension > ScanConvertType;
   typedef itk::NearestNeighborInterpolateImageFunction< OutputImageType, double >  InterpType;
-  //typedef itk::NearestNeighborInterpolateImageFunction< InputImageType, double >  InterpType;
   typedef itk::ImageFileWriter< OutputImageType > WriterType;
 
   try
@@ -117,6 +115,7 @@ int main( int argc, char* argv[] )
     resample->SetSize( size );
 
     writer->SetInput( resample->GetOutput() );
+    writer->SetNumberOfStreamDivisions( 20 );
     writer->Update();
     }
   catch ( itk::ExceptionObject& e )
