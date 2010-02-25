@@ -24,14 +24,14 @@ endif(CMAKE_COMPILER_IS_GNUCXX)
 set( CMAKE_RUNTIME_OUTPUT_DIRECTORY
   ${CURVILINEAR_SCAN_CONVERT_BINARY_DIR}/bin )
 
-add_subdirectory(source)
+add_subdirectory( Code )
 
 include(CTest)
 if(BUILD_TESTING)
-  if(NOT EXISTS ${CURVILINEAR_SCAN_CONVERT_SOURCE_DIR}/tests/data/.git)
+  if(NOT EXISTS ${CURVILINEAR_SCAN_CONVERT_SOURCE_DIR}/Testing/Data/Input/VisualSonics/.git)
     message(SEND_ERROR "In order to run tests, the tests/data must be downloaded.  
     If you do not want to run tests, turn BUILD_TESTING OFF.")
   endif()
   enable_testing()
-  add_subdirectory(tests)
+  add_subdirectory(Testing)
 endif(BUILD_TESTING)

@@ -18,7 +18,7 @@ find_library( VISUALSONICS_LIBRARY
   ITKVisualSonicsImageIO 
   )
 
-include_directories( ${CURVILINEAR_SCAN_CONVERT_SOURCE_DIR}/source )
+include_directories( ${CURVILINEAR_SCAN_CONVERT_SOURCE_DIR}/Code )
 
 set_source_files_properties(
   curvilinear-b-mode.cxx
