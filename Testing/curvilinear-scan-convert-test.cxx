@@ -6,6 +6,7 @@
  */
 
 #include <iostream>
+#include <sstream>
 using namespace std;
 
 #include "itkArray.h"
@@ -17,10 +18,6 @@ using namespace std;
 #include "itkNearestNeighborInterpolateImageFunction.h"
 #include "itkResampleImageFilter.h"
 
-
-#include "itkBModeImageFilter.h"
-#include "itkVisualSonicsImageIOFactory.h"
-
 #include "itkRThetaTransform.h"
 
 int main( int argc, char* argv[] )
@@ -29,16 +26,13 @@ int main( int argc, char* argv[] )
   if( argc != 3 )
     return EXIT_FAILURE;
 
-  itk::VisualSonicsImageIOFactory::RegisterOneFactory();
-
   typedef signed short InputPixelType;
-  typedef unsigned short OutputPixelType;
+  typedef signed short OutputPixelType;
   const unsigned int Dimension = 3;
   typedef itk::Image< InputPixelType, Dimension > InputImageType;
   typedef itk::Image< OutputPixelType, Dimension > OutputImageType;
 
   typedef itk::ImageFileReader< InputImageType > ReaderType;
-  typedef itk::BModeImageFilter< InputImageType, OutputImageType > BModeType;
   typedef itk::ResampleImageFilter< OutputImageType, OutputImageType > ResampleType;
   typedef itk::RThetaTransform< double, Dimension > ScanConvertType;
   typedef itk::NearestNeighborInterpolateImageFunction< OutputImageType, double >  InterpType;
@@ -47,15 +41,12 @@ int main( int argc, char* argv[] )
   try
     {
     ReaderType::Pointer reader = ReaderType::New();
-    BModeType::Pointer  bmode  = BModeType::New();
     ResampleType::Pointer resample = ResampleType::New();
     ScanConvertType::Pointer scanConvert = ScanConvertType::New();
     InterpType::Pointer interp = InterpType::New();
     WriterType::Pointer writer = WriterType::New();
 
-    bmode->SetInput( reader->GetOutput() );
-    resample->SetInput( bmode->GetOutput() );
-    resample->SetNumberOfThreads( 1 );
+    resample->SetInput( reader->GetOutput() );
 
     reader->SetFileName( argv[1] );
     writer->SetFileName( argv[2] );
@@ -65,14 +56,17 @@ int main( int argc, char* argv[] )
 
     const itk::MetaDataDictionary& dict = reader->GetMetaDataDictionary();
 
-    typedef const itk::MetaDataObject< double >* MetaDoubleType;
-    MetaDoubleType r = dynamic_cast< MetaDoubleType >( dict["Radius"] );
+    typedef const itk::MetaDataObject< std::string >* MetaStringType;
+    MetaStringType r = dynamic_cast< MetaStringType >( dict["RadiusString"] );
     if( r == NULL )
       {
-      cerr << "Could not find 'Radius' MetaDataDictionary entry." << std::endl;
+      cerr << "Could not find 'RadiusString' MetaDataDictionary entry." << std::endl;
       return EXIT_FAILURE;
       }
-    scanConvert->SetRmin( r->GetMetaDataObjectValue() );
+    double rMin;
+    istringstream iss( r->GetMetaDataObjectValue() );
+    iss >> rMin;
+    scanConvert->SetRmin( rMin );
 
     const unsigned int RDirection = 0;
     scanConvert->SetRDirection( RDirection );
@@ -83,19 +77,29 @@ int main( int argc, char* argv[] )
     InputImageType::SpacingType spacing = reader->GetOutput()->GetSpacing();
     InputImageType::SizeType size = reader->GetOutput()->GetLargestPossibleRegion().GetSize();
 
-    const double Rmax = r->GetMetaDataObjectValue() + size[RDirection] * spacing[RDirection]; 
+    const double Rmax = rMin + size[RDirection] * spacing[RDirection]; 
     scanConvert->SetRmax( Rmax );
 
     scanConvert->SetSpacingTheta( spacing[ThetaDirection] );
 
-    typedef const itk::MetaDataObject< itk::Array< double > >* MetaArrayType;
-    MetaArrayType thetaArray = dynamic_cast< MetaArrayType >( dict["Theta"] );
-    if( thetaArray == NULL )
+    MetaStringType thetaArrayMeta = dynamic_cast< MetaStringType >( dict["ThetaString"] );
+    if( thetaArrayMeta == NULL )
       {
-      cerr << "Could not find 'Theta' MetaDataDictionary entry." << std::endl;
+      cerr << "Could not find 'ThetaString' MetaDataDictionary entry." << std::endl;
       return EXIT_FAILURE;
       }
-    scanConvert->SetThetaArray( thetaArray->GetMetaDataObjectValue() );
+    std::string thetaString = thetaArrayMeta->GetMetaDataObjectValue() ;
+    unsigned int alines = std::count( thetaString.begin(), thetaString.end(), ' ' ) + 1;
+    typedef itk::Array< double > ArrayType;
+    double theta;
+    ArrayType thetaArray( alines );
+    iss.str( thetaString );
+    for( unsigned int i = 0; i < alines; i++ )
+      {
+      iss >> theta;
+      thetaArray[i] = theta;
+      }
+    scanConvert->SetThetaArray( thetaArray );
 
     resample->SetTransform( scanConvert );
     resample->SetInterpolator( interp );

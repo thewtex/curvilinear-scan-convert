@@ -1,46 +1,19 @@
 set( CURVILINEAR_TESTING_FILEPATH
-  ${CURVILINEAR_SCAN_CONVERT_SOURCE_DIR}/tests/data/machine/visualsonics/vevo770/rmv710b/pat143_seg2.rdi
-  )
-
-
-find_path( BMODE_INCLUDE
-  NAMES itkBModeImageFilter.h
-  )
-if( BMODE_INCLUDE-NOTFOUND )
-  message( SEND_ERROR "The itkBModeImageFilter.h header location must be
-  specified." )
-endif()
-include_directories( ${BMODE_INCLUDE} )
-
-find_package( RDIReader REQUIRED )
-include_directories( ${VISUALSONICS_INCLUDE} )
-find_library( VISUALSONICS_LIBRARY
-  ITKVisualSonicsImageIO 
+  ${CURVILINEAR_SCAN_CONVERT_SOURCE_DIR}/Testing/Data/Input/VisualSonics/us_uniform_phantom_w_surface.nrrd
   )
 
 include_directories( ${CURVILINEAR_SCAN_CONVERT_SOURCE_DIR}/Code )
 
-set_source_files_properties(
-  curvilinear-b-mode.cxx
-  PROPERTIES COMPILE_FLAGS -DITK_MANUAL_INSTANTIATION
+add_executable( curvilinear-scan-convert
+  curvilinear-scan-convert-test.cxx
   )
-add_executable( curvilinear-b-mode
-  curvilinear-b-mode.cxx
-  curvilinear-instan.cxx
-  b-mode-instan.cxx
-  interp-instan.cxx
-  metadataobject-instan.cxx
-  reader-instan.cxx
-  resample-instan.cxx
-  writer-instan.cxx
-  )
-target_link_libraries( curvilinear-b-mode
+target_link_libraries( curvilinear-scan-convert
   ${VISUALSONICS_LIBRARY}
   ITKStatistics
   )
-add_test( curvilinear-b-mode
-  ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/curvilinear-b-mode
+add_test( curvilinear-scan-convert
+  ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/curvilinear-scan-convert
   ${CURVILINEAR_TESTING_FILEPATH}
-  curvilinear-b-mode_output.mhd
+  curvilinear-scan-convert_output.mhd
   )
 
