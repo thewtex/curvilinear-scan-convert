@@ -112,7 +112,6 @@ int main( int argc, char* argv[] )
     origin[2] = 0.0;
     resample->SetOutputOrigin( origin );
 
-    spacing[RDirection] = spacing[ThetaDirection];
     resample->SetOutputSpacing( spacing );
 
     size[RDirection] = static_cast< unsigned int >( vcl_ceil ( ( Rmax - scanConvert->GetRmincosMaxAbsTheta() ) / spacing[RDirection] ) );
