@@ -7,6 +7,13 @@ include_directories( ${CURVILINEAR_SCAN_CONVERT_SOURCE_DIR}/Code )
 add_executable( curvilinear-scan-convert
   curvilinear-scan-convert-test.cxx
   )
+# gdb-pretty http://gitorious.com/gdb-pretty
+add_custom_command (TARGET curvilinear-scan-convert
+  POST_BUILD
+  COMMAND cmake -E copy
+  ${CMAKE_CURRENT_SOURCE_DIR}/curvilinear-scan-convert-gdb.py
+  ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/
+  )
 target_link_libraries( curvilinear-scan-convert
   ${VISUALSONICS_LIBRARY}
   ITKStatistics
