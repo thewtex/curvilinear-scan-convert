@@ -93,6 +93,7 @@ int main( int argc, char* argv[] )
     typedef itk::Array< double > ArrayType;
     double theta;
     ArrayType thetaArray( alines );
+    iss.clear();
     iss.str( thetaString );
     for( unsigned int i = 0; i < alines; i++ )
       {
