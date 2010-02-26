@@ -89,7 +89,7 @@ int main( int argc, char* argv[] )
       return EXIT_FAILURE;
       }
     std::string thetaString = thetaArrayMeta->GetMetaDataObjectValue() ;
-    unsigned int alines = std::count( thetaString.begin(), thetaString.end(), ' ' ) + 1;
+    unsigned int alines = std::count( thetaString.begin(), thetaString.end(), ' ' );
     typedef itk::Array< double > ArrayType;
     double theta;
     ArrayType thetaArray( alines );
