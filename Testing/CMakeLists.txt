@@ -17,6 +17,8 @@ add_custom_command (TARGET curvilinear-scan-convert
 target_link_libraries( curvilinear-scan-convert
   ${VISUALSONICS_LIBRARY}
   ITKStatistics
+  ITKCommon
+  ITKIO
   )
 add_test( curvilinear-scan-convert
   ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/curvilinear-scan-convert
