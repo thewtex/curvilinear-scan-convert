@@ -1,20 +1,13 @@
-/** 
- * @file itkRThetaTransform.h
- * @brief Scan convert an ultrasound image from a curvilinear array.
- * @author Matthew McCormick (thewtex) <matt@mmmccormick.com>
- * @date 2009-11-03
- */
-
-#ifndef __itkRThetaTransform_h
-#define __itkRThetaTransform_h
+#ifndef __itkCartesianToRThetaTransform_h
+#define __itkCartesianToRThetaTransform_h
 
 #include "itkTransform.h"
 
 namespace itk
 {
 
-/** @brief Transform for an image that was actually acquired in (R, Theta)
- * space.  E.g., scan convert an ultrasound image from a curvilinear array.
+/** @brief Transform Cartesian space (x-y) to R-Theta space (radius-angle)
+ * E.g., scan convert an ultrasound image from a curvilinear array.
  * 
  *  Valid values of theta can range from -pi/2 to pi/2.
  *
@@ -49,14 +42,13 @@ namespace itk
  *    divided by the step in angle between lines in the theta direction.
  *
  */
-
 template < class TScalarType, unsigned int NDimensions=3 >
-class ITK_EXPORT RThetaTransform :
+class ITK_EXPORT CartesianToRThetaTransform :
   public Transform< TScalarType, NDimensions, NDimensions >
 {
 public:
   /** Standard "Self" typedef.   */
-  typedef RThetaTransform Self;
+  typedef CartesianToRThetaTransform Self;
 
   /** Standard super class typedef support. */
   typedef Transform< TScalarType, NDimensions, NDimensions > Superclass;
@@ -66,7 +58,7 @@ public:
   typedef SmartPointer< const Self > ConstPointer;
 
   /** Run-time type information (and related methods) */
-  itkTypeMacro( RThetaTransform, Transform );
+  itkTypeMacro( CartesianToRThetaTransform, Transform );
   
   /** Method for creation through the object factory. */
   itkNewMacro( Self );
@@ -139,6 +131,14 @@ public:
    */
   virtual bool IsLinear() const { return false; }
 
+   /** Base inverse transform type. This type should not be changed to the
+    * concrete inverse transform type or inheritance would be lost.*/
+  typedef typename Superclass::InverseTransformBaseType InverseTransformBaseType;
+  typedef typename InverseTransformBaseType::Pointer    InverseTransformBasePointer;
+
+  /** Return an inverse of this transform. */
+  virtual InverseTransformBasePointer GetInverseTransform() const; 
+
   /** The direction in the input image that corresponds to the radial component.
    * */
   itkSetMacro( RDirection, unsigned int );
@@ -171,6 +171,7 @@ public:
    *	The spacing in the ThetaDirection.  This must be set before ThetaArray.
    *	*/
   itkSetMacro( SpacingTheta, double );
+  itkGetConstMacro( SpacingTheta, double );
 
   /** ThetaArray
    *	An itk::Array<double> who elements correspond to the angle in radians of
@@ -189,27 +190,30 @@ public:
   itkGetConstMacro( RmincosMaxAbsTheta, ScalarType );
 
 protected:
-  RThetaTransform();
-  ~RThetaTransform() {}
+  CartesianToRThetaTransform();
+  ~CartesianToRThetaTransform() {}
 
   unsigned int m_RDirection;
   unsigned int m_ThetaDirection;
   double m_SpacingTheta;
+
+  itk::Array< double > m_ThetaArray;
 
   // we have these ase member variable so they only have to be calculated once
   ScalarType m_RmaxsinThetamin;
   ScalarType m_RmincosMaxAbsTheta;
 
 private:
-  RThetaTransform( const Self& ); // purposely not implemented
+  CartesianToRThetaTransform( const Self& ); // purposely not implemented
   void operator=( const Self& ); // purposely not implemented
 
 
 };
+
 } // end namesplace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkRThetaTransform.txx"
+#include "itkCartesianToRThetaTransform.txx"
 #endif
 
-#endif // __itkRThetaTransform_h
+#endif // __itkCartesianToRThetaTransform_h

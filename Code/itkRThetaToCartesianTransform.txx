@@ -1,7 +1,9 @@
-#ifndef __itkRThetaTransform_txx
-#define __itkRThetaTransform_txx
+#ifndef __itkRThetaToCartesianTransform_txx
+#define __itkRThetaToCartesianTransform_txx
 
-#include "itkRThetaTransform.h"
+#include "itkRThetaToCartesianTransform.h"
+
+#include "itkCartesianToRThetaTransform.h"
 
 #include "vnl/vnl_math.h"
 
@@ -9,8 +11,8 @@ namespace itk
 {
 
 template < class TScalarType, unsigned int NDimensions >
-RThetaTransform< TScalarType, NDimensions >
-::RThetaTransform():
+RThetaToCartesianTransform< TScalarType, NDimensions >
+::RThetaToCartesianTransform():
   Superclass( SpaceDimension, 5 ),
   m_RDirection( 0 ),
   m_ThetaDirection( 1 ),
@@ -25,7 +27,7 @@ RThetaTransform< TScalarType, NDimensions >
 
 template < class TScalarType, unsigned int NDimensions >
 void
-RThetaTransform< TScalarType, NDimensions >
+RThetaToCartesianTransform< TScalarType, NDimensions >
 ::SetThetaArray( const itk::Array< double >& thetaArray )
 {
   // MaxAbsTheta
@@ -57,29 +59,39 @@ RThetaTransform< TScalarType, NDimensions >
 
 
 template < class TScalarType, unsigned int NDimensions >
-typename RThetaTransform< TScalarType, NDimensions>::OutputPointType
-RThetaTransform< TScalarType, NDimensions >
+typename RThetaToCartesianTransform< TScalarType, NDimensions>::OutputPointType
+RThetaToCartesianTransform< TScalarType, NDimensions >
 ::TransformPoint( const InputPointType& inpoint ) const
 {
   OutputPointType outpoint = inpoint;
 
-  ScalarType theta = vcl_atan(
-    inpoint[m_ThetaDirection] / 
-    inpoint[m_RDirection]
-  );
+  ScalarType theta = inpoint[m_ThetaDirection] * this->m_Parameters[4];
+  ScalarType r     = this->m_Parameters[0] + inpoint[m_RDirection];
 
-  ScalarType r = vcl_sqrt( 
-    vnl_math_sqr( inpoint[m_RDirection] ) +
-    vnl_math_sqr( inpoint[m_ThetaDirection] )
-  );
-
-  outpoint[m_RDirection] = r - this->m_Parameters[0];
-  outpoint[m_ThetaDirection] = ( theta - this->m_Parameters[3] ) * this->m_Parameters[4] ;
+  outpoint[m_RDirection] = r * vcl_sin( theta );
+  outpoint[m_ThetaDirection] = r * vcl_cos( theta );
 
   return outpoint;
 }
 
 
+template < class TScalarType, unsigned int NDimensions >
+typename RThetaToCartesianTransform< TScalarType, NDimensions>::InverseTransformBasePointer
+RThetaToCartesianTransform< TScalarType, NDimensions >
+::GetInverseTransform() const
+{
+  typedef itk::CartesianToRThetaTransform< TScalarType, NDimensions > InverseType;
+  typename InverseType::Pointer inverse = InverseType::New();
+
+  inverse->SetRDirection( m_RDirection );
+  inverse->SetThetaArray( m_ThetaDirection );
+  inverse->SetSpacingTheta( m_SpacingTheta );
+  inverse->SetParameters( this->GetParameters() );
+
+  return inverse.GetPointer();
 }
 
-#endif // __itkRThetaTransform_txx
+
+}
+
+#endif // __itkRThetaToCartesianTransform_txx

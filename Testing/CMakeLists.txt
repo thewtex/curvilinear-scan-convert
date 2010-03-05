@@ -4,25 +4,25 @@ set( CURVILINEAR_TESTING_FILEPATH
 
 include_directories( ${CURVILINEAR_SCAN_CONVERT_SOURCE_DIR}/Code )
 
-add_executable( curvilinear-scan-convert
-  curvilinear-scan-convert-test.cxx
+add_executable( itkCartesianToRThetaTransformTest
+  itkCartesianToRThetaTransformTest.cxx
   )
 # gdb-pretty http://gitorious.com/gdb-pretty
-add_custom_command (TARGET curvilinear-scan-convert
+add_custom_command (TARGET itkCartesianToRThetaTransformTest
   POST_BUILD
   COMMAND cmake -E copy
-  ${CMAKE_CURRENT_SOURCE_DIR}/curvilinear-scan-convert-gdb.py
+  ${CMAKE_CURRENT_SOURCE_DIR}/itkCartesianToRThetaTransformTest-gdb.py
   ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/
   )
-target_link_libraries( curvilinear-scan-convert
+target_link_libraries( itkCartesianToRThetaTransformTest
   ${VISUALSONICS_LIBRARY}
   ITKStatistics
   ITKCommon
   ITKIO
   )
-add_test( curvilinear-scan-convert
-  ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/curvilinear-scan-convert
+add_test( itkCartesianToRThetaTransformTest
+  ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/itkCartesianToRThetaTransformTest
   ${CURVILINEAR_TESTING_FILEPATH}
-  curvilinear-scan-convert_output.mhd
+  itkCartesianToRThetaTransformTestOutput.mhd
   )
 

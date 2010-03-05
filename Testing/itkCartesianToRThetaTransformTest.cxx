@@ -18,7 +18,7 @@ using namespace std;
 #include "itkNearestNeighborInterpolateImageFunction.h"
 #include "itkResampleImageFilter.h"
 
-#include "itkRThetaTransform.h"
+#include "itkCartesianToRThetaTransform.h"
 
 int main( int argc, char* argv[] )
 {
@@ -34,7 +34,7 @@ int main( int argc, char* argv[] )
 
   typedef itk::ImageFileReader< InputImageType > ReaderType;
   typedef itk::ResampleImageFilter< OutputImageType, OutputImageType > ResampleType;
-  typedef itk::RThetaTransform< double, Dimension > ScanConvertType;
+  typedef itk::CartesianToRThetaTransform< double, Dimension > ScanConvertType;
   typedef itk::NearestNeighborInterpolateImageFunction< OutputImageType, double >  InterpType;
   typedef itk::ImageFileWriter< OutputImageType > WriterType;
 
