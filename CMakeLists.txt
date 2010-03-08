@@ -9,6 +9,22 @@ project( CURVILINEAR_SCAN_CONVERT )
 find_package( ITK REQUIRED )
 include( ${ITK_USE_FILE} )
 
+# itkStreamingResampleImageFilter
+find_path( STREAMING_RESAMPLE_IMAGE_FILTER
+  itkStreamingResampleImageFilter.h
+  PATHS
+  ${CMAKE_CURRENT_SOURCE_DIR}/Submodules/itkStreamingResampleImageFilter/Code
+  ${ITK_INSTALL_PREFIX}/include/InsightToolkit/BasicFilters
+  )
+mark_as_advanced( STREAMING_RESAMPLE_IMAGE_FILTER )
+if( NOT STREAMING_RESAMPLE_IMAGE_FILTER )
+  message( SEND_ERROR "The itkStreamingResampleImageFilter must be available.
+  Try `git submodule init` and `git submodule update`." )
+endif()
+include_directories( ${STREAMING_RESAMPLE_IMAGE_FILTER} )
+add_subdirectory( Submodules/itkStreamingResampleImageFilter )
+
+
 if(CMAKE_COMPILER_IS_GNUCXX)
   set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall")
 

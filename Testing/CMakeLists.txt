@@ -26,3 +26,18 @@ add_test( itkCartesianToRThetaTransformTest
   itkCartesianToRThetaTransformTestOutput.mhd
   )
 
+add_executable( itkResampleRThetaToCartesianImageFilterTest
+  itkResampleRThetaToCartesianImageFilterTest.cxx
+  )
+target_link_libraries( itkResampleRThetaToCartesianImageFilterTest
+  ${VISUALSONICS_LIBRARY}
+  ITKStatistics
+  ITKCommon
+  ITKIO
+  )
+add_test( itkResampleRThetaToCartesianImageFilterTest
+  ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/itkResampleRThetaToCartesianImageFilterTest
+  ${CURVILINEAR_TESTING_FILEPATH}
+  itkResampleRThetaToCartesianImageFilterTestOutput.mhd
+  )
+
