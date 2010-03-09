@@ -10,8 +10,8 @@
 namespace itk
 {
 
-template < class TInputImage, class TOutputImage >
-ResampleRThetaToCartesianImageFilter< TInputImage, TOutputImage >
+template < class TInputImage, class TOutputImage, class TInterpolatorPrecision >
+ResampleRThetaToCartesianImageFilter< TInputImage, TOutputImage, TInterpolatorPrecision >
 ::ResampleRThetaToCartesianImageFilter()
 {
   m_ResamplingFilter = ResampleType::New();
@@ -19,10 +19,10 @@ ResampleRThetaToCartesianImageFilter< TInputImage, TOutputImage >
   m_ResamplingFilter->SetTransform( m_Transform );
 }
 
-template < class TInputImage, class TOutputImage >
+template < class TInputImage, class TOutputImage, class TInterpolatorPrecision >
 void
-ResampleRThetaToCartesianImageFilter< TInputImage, TOutputImage >::
-GenerateOutputInformation()
+ResampleRThetaToCartesianImageFilter< TInputImage, TOutputImage, TInterpolatorPrecision >
+::GenerateOutputInformation()
 {
   typename InputImageType::ConstPointer  inputPtr  = this->GetInput();
   typename OutputImageType::Pointer      outputPtr = this->GetOutput();
@@ -125,20 +125,20 @@ GenerateOutputInformation()
   //outputPtr->SetOrigin( resampleOutput->GetOrigin() );
 }
 
-template < class TInputImage, class TOutputImage >
+template < class TInputImage, class TOutputImage, class TInterpolatorPrecision >
 void
-ResampleRThetaToCartesianImageFilter< TInputImage, TOutputImage >::
-GenerateInputRequestedRegion()
+ResampleRThetaToCartesianImageFilter< TInputImage, TOutputImage, TInterpolatorPrecision >
+::GenerateInputRequestedRegion()
 {
   this->m_ResamplingFilter->SetInput( this->GetInput() );
   //this->m_ResamplingFilter->GetOutput()->SetRequestedRegion( this->GetOutput()->GetRequestedRegion() );
   this->m_ResamplingFilter->GenerateInputRequestedRegion();
 }
 
-template < class TInputImage, class TOutputImage >
+template < class TInputImage, class TOutputImage, class TInterpolatorPrecision >
 void
-ResampleRThetaToCartesianImageFilter< TInputImage, TOutputImage >::
-GenerateData()
+ResampleRThetaToCartesianImageFilter< TInputImage, TOutputImage, TInterpolatorPrecision >
+::GenerateData()
 {
   typename InputImageType::ConstPointer  inputPtr  = this->GetInput();
   typename OutputImageType::Pointer      outputPtr = this->GetOutput();

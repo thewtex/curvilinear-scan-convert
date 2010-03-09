@@ -5,6 +5,13 @@
  * @date 2009-11-03
  */
 
+#include "itkTestMain.h"
+
+void RegisterTests()
+{
+  REGISTER_TEST( itkCartesianToRThetaTransformTest );
+}
+
 #include <iostream>
 #include <sstream>
 using namespace std;
@@ -19,12 +26,8 @@ using namespace std;
 
 #include "itkCartesianToRThetaTransform.h"
 
-int main( int argc, char* argv[] )
+int itkCartesianToRThetaTransformTest( int argc, char* argv[] )
 {
-  // usage: vs-convert-b-mode input.rdi output.mhd
-  if( argc != 3 )
-    return EXIT_FAILURE;
-
   typedef signed short InputPixelType;
   typedef signed short OutputPixelType;
   const unsigned int Dimension = 3;
@@ -45,8 +48,8 @@ int main( int argc, char* argv[] )
 
     resample->SetInput( reader->GetOutput() );
 
-    reader->SetFileName( argv[1] );
-    writer->SetFileName( argv[2] );
+    reader->SetFileName( argv[4] );
+    writer->SetFileName( argv[5] );
 
     reader->UpdateOutputInformation();
     reader->GetOutput()->Print(cout);

@@ -33,7 +33,7 @@ namespace itk
  * value.
  */
 
-template < class TInputImage, class TOutputImage >
+template < class TInputImage, class TOutputImage, class TInterpolatorPrecision = double >
 class ITK_EXPORT ResampleRThetaToCartesianImageFilter :
   public ImageToImageFilter< TInputImage, TOutputImage >
 {
@@ -118,8 +118,8 @@ protected:
   virtual void GenerateInputRequestedRegion();
 
   /** Component filters. */
-  typedef itk::StreamingResampleImageFilter< InputImageType, OutputImageType, float > ResampleType;
-  typedef itk::CartesianToRThetaTransform< float, ImageDimension > TransformType;
+  typedef itk::StreamingResampleImageFilter< InputImageType, OutputImageType, TInterpolatorPrecision > ResampleType;
+  typedef itk::CartesianToRThetaTransform< TInterpolatorPrecision, ImageDimension > TransformType;
 
 private:
   ResampleRThetaToCartesianImageFilter( const Self& ); // purposely not implemented

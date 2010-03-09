@@ -5,6 +5,13 @@
  * @date 2009-11-03
  */
 
+#include "itkTestMain.h"
+
+void RegisterTests()
+{
+  REGISTER_TEST( itkResampleRThetaToCartesianImageFilterTest );
+}
+
 #include <iostream>
 #include <sstream>
 using namespace std;
@@ -15,12 +22,8 @@ using namespace std;
 
 #include "itkResampleRThetaToCartesianImageFilter.h"
 
-int main( int argc, char* argv[] )
+int itkResampleRThetaToCartesianImageFilterTest( int argc, char* argv[] )
 {
-  // usage: vs-convert-b-mode input.rdi output.mhd
-  if( argc != 3 )
-    return EXIT_FAILURE;
-
   typedef signed short InputPixelType;
   typedef signed short OutputPixelType;
   const unsigned int Dimension = 3;
@@ -28,7 +31,7 @@ int main( int argc, char* argv[] )
   typedef itk::Image< OutputPixelType, Dimension > OutputImageType;
 
   typedef itk::ImageFileReader< InputImageType > ReaderType;
-  typedef itk::ResampleRThetaToCartesianImageFilter< InputImageType, OutputImageType > ResampleType;
+  typedef itk::ResampleRThetaToCartesianImageFilter< InputImageType, OutputImageType, float > ResampleType;
   typedef itk::ImageFileWriter< OutputImageType > WriterType;
 
   try
@@ -39,8 +42,8 @@ int main( int argc, char* argv[] )
 
     resample->SetInput( reader->GetOutput() );
 
-    reader->SetFileName( argv[1] );
-    writer->SetFileName( argv[2] );
+    reader->SetFileName( argv[4] );
+    writer->SetFileName( argv[5] );
 
     reader->UpdateOutputInformation();
 

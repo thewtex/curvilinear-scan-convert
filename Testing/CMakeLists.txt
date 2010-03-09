@@ -22,6 +22,9 @@ target_link_libraries( itkCartesianToRThetaTransformTest
   )
 add_test( itkCartesianToRThetaTransformTest
   ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/itkCartesianToRThetaTransformTest
+  itkCartesianToRThetaTransformTest
+  --compare itkCartesianToRThetaTransformTestOutput.mhd
+  ${CMAKE_CURRENT_SOURCE_DIR}/Testing/Data/Baseline/us_uniform_phantom_w_surface_scan_converted.mhd
   ${CURVILINEAR_TESTING_FILEPATH}
   itkCartesianToRThetaTransformTestOutput.mhd
   )
@@ -37,6 +40,9 @@ target_link_libraries( itkResampleRThetaToCartesianImageFilterTest
   )
 add_test( itkResampleRThetaToCartesianImageFilterTest
   ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/itkResampleRThetaToCartesianImageFilterTest
+  itkResampleRThetaToCartesianImageFilterTest
+  --compare itkResampleRThetaToCartesianImageFilterTestOutput.mhd
+  ${CMAKE_CURRENT_SOURCE_DIR}/Testing/Data/Baseline/us_uniform_phantom_w_surface_scan_converted.mhd
   ${CURVILINEAR_TESTING_FILEPATH}
   itkResampleRThetaToCartesianImageFilterTestOutput.mhd
   )

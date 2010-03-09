@@ -1,0 +1,13 @@
+ObjectType = Image
+NDims = 3
+BinaryData = True
+BinaryDataByteOrderMSB = False
+CompressedData = False
+TransformMatrix = 1 0 0 0 1 0 0 0 1
+Offset = 0.0661968 -0.0101637 0
+CenterOfRotation = 0 0 0
+AnatomicalOrientation = RAI
+ElementSpacing = 1.83333e-06 0.0023562 0.000286
+DimSize = 2507 9 93
+ElementType = MET_SHORT
+ElementDataFile = us_uniform_phantom_w_surface_scan_converted.raw
