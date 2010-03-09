@@ -116,11 +116,13 @@ GenerateOutputInformation()
   size[thetaDirection] = static_cast< unsigned int >( vcl_ceil( vcl_abs(2.0 * m_Transform->GetRmaxsinThetamin() / spacing[thetaDirection]) ) );
   m_ResamplingFilter->SetSize( size );
 
-  typename ResampleType::OutputImageType::Pointer resampleOutput = m_ResamplingFilter->GetOutput();
-  resampleOutput->SetRequestedRegion( outputPtr->GetRequestedRegion() );
+  //typename ResampleType::OutputImageType::Pointer resampleOutput = m_ResamplingFilter->GetOutput();
+  //resampleOutput->SetRequestedRegion( outputPtr->GetRequestedRegion() );
+  m_ResamplingFilter->SetInput( inputPtr );
   m_ResamplingFilter->UpdateOutputInformation();
-  outputPtr->SetLargestPossibleRegion( resampleOutput->GetLargestPossibleRegion() );
-  outputPtr->SetOrigin( resampleOutput->GetOrigin() );
+  outputPtr->CopyInformation( m_ResamplingFilter->GetOutput() );
+  //outputPtr->SetLargestPossibleRegion( resampleOutput->GetLargestPossibleRegion() );
+  //outputPtr->SetOrigin( resampleOutput->GetOrigin() );
 }
 
 template < class TInputImage, class TOutputImage >

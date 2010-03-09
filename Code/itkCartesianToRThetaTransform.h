@@ -131,7 +131,7 @@ public:
    */
   virtual bool IsLinear() const { return false; }
 
-   /** Base inverse transform type. This type should not be changed to the
+  /** Base inverse transform type. This type should not be changed to the
     * concrete inverse transform type or inheritance would be lost.*/
   typedef typename Superclass::InverseTransformBaseType InverseTransformBaseType;
   typedef typename InverseTransformBaseType::Pointer    InverseTransformBasePointer;
@@ -149,9 +149,19 @@ public:
   itkSetMacro( ThetaDirection, unsigned int );
   itkGetConstMacro( ThetaDirection, unsigned int );
 
- /**  Rmin
- *    The distance from the center of rotation to the first sample in the
- *    RDirection. type: double */
+  virtual const ParametersType & GetParameters( void ) const
+    {
+    return this->m_Parameters;
+    }
+  virtual void SetParameters( const ParametersType & parameters ) 
+    {
+    this->m_Parameters = parameters;
+    this->Modified();
+    }
+
+  /**  Rmin
+   *    The distance from the center of rotation to the first sample in the
+   *    RDirection. type: double */
   virtual void SetRmin( const double& Rmin )
     { 
     this->m_Parameters[0] = Rmin;
@@ -159,8 +169,8 @@ public:
     }
 
  /**  Rmax
- *    Distance in physical units to the last point in the RDirection.  Rmin +
- *    size[RDirection] * spacing[RDirection] */
+   *    Distance in physical units to the last point in the RDirection.  Rmin +
+   *    size[RDirection] * spacing[RDirection] */
   virtual void SetRmax( const double& Rmax )
     {
     this->m_Parameters[1] = Rmax;

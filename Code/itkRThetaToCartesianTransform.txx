@@ -84,7 +84,7 @@ RThetaToCartesianTransform< TScalarType, NDimensions >
   typename InverseType::Pointer inverse = InverseType::New();
 
   inverse->SetRDirection( m_RDirection );
-  inverse->SetThetaArray( m_ThetaDirection );
+  inverse->SetThetaDirection( m_ThetaDirection );
   inverse->SetSpacingTheta( m_SpacingTheta );
   inverse->SetParameters( this->GetParameters() );
 
