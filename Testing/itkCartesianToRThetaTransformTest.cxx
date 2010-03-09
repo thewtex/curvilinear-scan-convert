@@ -15,7 +15,6 @@ using namespace std;
 #include "itkImageFileWriter.h"
 #include "itkMetaDataDictionary.h"
 #include "itkMetaDataObject.h"
-#include "itkNearestNeighborInterpolateImageFunction.h"
 #include "itkResampleImageFilter.h"
 
 #include "itkCartesianToRThetaTransform.h"
@@ -33,9 +32,8 @@ int main( int argc, char* argv[] )
   typedef itk::Image< OutputPixelType, Dimension > OutputImageType;
 
   typedef itk::ImageFileReader< InputImageType > ReaderType;
-  typedef itk::ResampleImageFilter< OutputImageType, OutputImageType > ResampleType;
-  typedef itk::CartesianToRThetaTransform< double, Dimension > ScanConvertType;
-  typedef itk::NearestNeighborInterpolateImageFunction< OutputImageType, double >  InterpType;
+  typedef itk::ResampleImageFilter< OutputImageType, OutputImageType, float > ResampleType;
+  typedef itk::CartesianToRThetaTransform< float, Dimension > ScanConvertType;
   typedef itk::ImageFileWriter< OutputImageType > WriterType;
 
   try
@@ -43,7 +41,6 @@ int main( int argc, char* argv[] )
     ReaderType::Pointer reader = ReaderType::New();
     ResampleType::Pointer resample = ResampleType::New();
     ScanConvertType::Pointer scanConvert = ScanConvertType::New();
-    InterpType::Pointer interp = InterpType::New();
     WriterType::Pointer writer = WriterType::New();
 
     resample->SetInput( reader->GetOutput() );
@@ -103,7 +100,6 @@ int main( int argc, char* argv[] )
     scanConvert->SetThetaArray( thetaArray );
 
     resample->SetTransform( scanConvert );
-    resample->SetInterpolator( interp );
     resample->SetDefaultPixelValue( 0 );
 
     OutputImageType::PointType origin;
