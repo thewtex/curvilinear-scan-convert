@@ -116,13 +116,9 @@ ResampleRThetaToCartesianImageFilter< TInputImage, TOutputImage, TInterpolatorPr
   size[thetaDirection] = static_cast< unsigned int >( vcl_ceil( vcl_abs(2.0 * m_Transform->GetRmaxsinThetamin() / spacing[thetaDirection]) ) );
   m_ResamplingFilter->SetSize( size );
 
-  //typename ResampleType::OutputImageType::Pointer resampleOutput = m_ResamplingFilter->GetOutput();
-  //resampleOutput->SetRequestedRegion( outputPtr->GetRequestedRegion() );
   m_ResamplingFilter->SetInput( inputPtr );
   m_ResamplingFilter->UpdateOutputInformation();
   outputPtr->CopyInformation( m_ResamplingFilter->GetOutput() );
-  //outputPtr->SetLargestPossibleRegion( resampleOutput->GetLargestPossibleRegion() );
-  //outputPtr->SetOrigin( resampleOutput->GetOrigin() );
 }
 
 template < class TInputImage, class TOutputImage, class TInterpolatorPrecision >
@@ -131,7 +127,6 @@ ResampleRThetaToCartesianImageFilter< TInputImage, TOutputImage, TInterpolatorPr
 ::GenerateInputRequestedRegion()
 {
   this->m_ResamplingFilter->SetInput( this->GetInput() );
-  //this->m_ResamplingFilter->GetOutput()->SetRequestedRegion( this->GetOutput()->GetRequestedRegion() );
   this->m_ResamplingFilter->GenerateInputRequestedRegion();
 }
 
