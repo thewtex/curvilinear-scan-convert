@@ -127,6 +127,7 @@ ResampleRThetaToCartesianImageFilter< TInputImage, TOutputImage, TInterpolatorPr
 ::GenerateInputRequestedRegion()
 {
   this->m_ResamplingFilter->SetInput( this->GetInput() );
+  this->m_ResamplingFilter->GetOutput()->SetRequestedRegion( this->GetOutput()->GetRequestedRegion() );
   this->m_ResamplingFilter->GenerateInputRequestedRegion();
 }
 
