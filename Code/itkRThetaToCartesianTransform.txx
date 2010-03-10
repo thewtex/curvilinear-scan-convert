@@ -65,11 +65,11 @@ RThetaToCartesianTransform< TScalarType, NDimensions >
 {
   OutputPointType outpoint = inpoint;
 
-  ScalarType theta = inpoint[m_ThetaDirection] * this->m_Parameters[4];
+  ScalarType theta = this->m_Parameters[3] + inpoint[m_ThetaDirection] / this->m_Parameters[4];
   ScalarType r     = this->m_Parameters[0] + inpoint[m_RDirection];
 
-  outpoint[m_RDirection] = r * vcl_sin( theta );
-  outpoint[m_ThetaDirection] = r * vcl_cos( theta );
+  outpoint[m_RDirection] = r * vcl_cos( theta );
+  outpoint[m_ThetaDirection] = r * vcl_sin( theta );
 
   return outpoint;
 }
