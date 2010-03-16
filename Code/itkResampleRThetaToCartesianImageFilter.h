@@ -88,19 +88,11 @@ public:
     }
 
   /** SpacingTheta
-   *	The spacing in the ThetaDirection.  If not set, the spacing in the
+   *	The output spacing in the ThetaDirection.  If not set, twice the spacing in the
    *	ThetaDirection from the input is used.
    *	*/
-  virtual void SetSpacingTheta( const double& spacing )
-    {
-    m_Transform->SetSpacingTheta( spacing );
-    this->Modified();
-    }
-
-  virtual double GetSpacingTheta() const
-    {
-    return m_Transform->GetSpacingTheta();
-    }
+  itkSetMacro( OutputSpacingTheta, double );
+  itkGetConstMacro( OutputSpacingTheta, double );
 
   virtual void SetDefaultPixelValue( typename TOutputImage::PixelType defaultValue )
     {
@@ -127,6 +119,8 @@ private:
 
   typename ResampleType::Pointer  m_ResamplingFilter;
   typename TransformType::Pointer m_Transform;
+
+  double m_OutputSpacingTheta;
 };
 } // end namesplace itk
 

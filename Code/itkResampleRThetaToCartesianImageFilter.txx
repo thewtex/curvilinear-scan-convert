@@ -12,7 +12,8 @@ namespace itk
 
 template < class TInputImage, class TOutputImage, class TInterpolatorPrecision >
 ResampleRThetaToCartesianImageFilter< TInputImage, TOutputImage, TInterpolatorPrecision >
-::ResampleRThetaToCartesianImageFilter()
+::ResampleRThetaToCartesianImageFilter():
+  m_OutputSpacingTheta( 0.0 )
 {
   m_ResamplingFilter = ResampleType::New();
   m_Transform = TransformType::New();
@@ -65,14 +66,14 @@ ResampleRThetaToCartesianImageFilter< TInputImage, TOutputImage, TInterpolatorPr
   const double Rmax = Rmin + size[rDirection] * spacing[rDirection]; 
   m_Transform->SetRmax( Rmax );
 
-  double spacingTheta = m_Transform->GetSpacingTheta();
-  if( spacingTheta == 0.0 ) // has not been initialized
+  m_Transform->SetSpacingTheta( spacing[thetaDirection] );
+  if( m_OutputSpacingTheta == 0.0 ) // has not been initialized
     {
-    m_Transform->SetSpacingTheta( spacing[thetaDirection] );
+    spacing[thetaDirection] = spacing[thetaDirection] / 2.;
     }
   else
     {
-    spacing[thetaDirection] = spacingTheta;
+    spacing[thetaDirection] = m_OutputSpacingTheta;
     }
 
   // Theta.
