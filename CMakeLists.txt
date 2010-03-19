@@ -46,7 +46,8 @@ add_subdirectory( Code )
 include(CTest)
 if(BUILD_TESTING)
   if(NOT EXISTS ${CURVILINEAR_SCAN_CONVERT_SOURCE_DIR}/Testing/Data/Input/VisualSonics/.git)
-    message(SEND_ERROR "In order to run tests, the tests/data must be downloaded.  
+    message(SEND_ERROR "In order to run tests, the
+    Testing/Data/Input/VisualSonics data must be downloaded.  
     If you do not want to run tests, turn BUILD_TESTING OFF.")
   endif()
   enable_testing()
