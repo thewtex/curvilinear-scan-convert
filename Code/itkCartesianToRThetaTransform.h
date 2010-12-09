@@ -171,7 +171,7 @@ public:
   /** We must provide an implementation because it is abstract. */
   virtual void SetFixedParameters( const ParametersType & )
     {
-    itkExceptionMacro(<< "SetFixedParameters does not do anything." );
+    //itkExceptionMacro(<< "SetFixedParameters does not do anything." );
     }
 
   /**  Rmin
