@@ -72,6 +72,9 @@ public:
   /** Standard parameters container. */
   typedef typename Superclass::ParametersType ParametersType;
 
+  /** Jacobian type. */
+  typedef typename Superclass::JacobianType   JacobianType;
+
   /** Standard coordinate point type for this class */
   typedef Point<TScalarType,
                 itkGetStaticConstMacro(SpaceDimension)> InputPointType;
@@ -124,6 +127,12 @@ public:
     return OutputCovariantVectorType(); 
     } 
 
+  virtual const JacobianType & GetJacobian( const InputPointType & point ) const
+    {
+    itkExceptionMacro(<< "GetJacobian has not been implemented yet.");
+    return this->m_Jacobian;
+    }
+
   /** Indicates that this transform is linear. That is, given two
    * points P and Q, and scalar coefficients a and b, then
    *
@@ -157,6 +166,12 @@ public:
     {
     this->m_Parameters = parameters;
     this->Modified();
+    }
+
+  /** We must provide an implementation because it is abstract. */
+  virtual void SetFixedParameters( const ParametersType & )
+    {
+    itkExceptionMacro(<< "SetFixedParameters does not do anything." );
     }
 
   /**  Rmin

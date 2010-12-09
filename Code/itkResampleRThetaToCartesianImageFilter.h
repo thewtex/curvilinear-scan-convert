@@ -23,8 +23,8 @@ namespace itk
  *    The direction in the input image assumed to correspond to the angular
  *    component.  Use SetThetaDirection() to specify it.
  *
- * The input should have MetaDataDictionary entries for "Radius" and
- * "RadiousString" and "Theta" or "ThetaString".  "Radius" is of type double
+ * The input should have MetaDataDictionary entries for "Radius" or
+ * "RadiusString" and "Theta" or "ThetaString".  "Radius" is of type double
  * and contains the distance in the RDirection to the first sample.
  * "RadiusString" is a string representation of the value.  "Theta" is an
  * itk::Array<double> containing the angles for every value in the
