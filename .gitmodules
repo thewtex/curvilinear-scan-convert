@@ -1,6 +1,6 @@
 [submodule "Submodules/itkStreamingResampleImageFilter"]
 	path = Submodules/itkStreamingResampleImageFilter
-	url = git://gitorious.org/ultrasound-b-mode/itkstreamingresampleimagefilter.git
+	url = https://github.com/thewtex/ITKStreamingResampleImageFilter.git
 [submodule "Testing/Data/Input/VisualSonics"]
 	path = Testing/Data/Input/VisualSonics
-	url = git://gitorious.org/ultrasound-b-mode/visualsonics-test-data.git
+	url = https://github.com/thewtex/visualsonics-test-data.git
